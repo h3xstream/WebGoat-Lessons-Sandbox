@@ -6,12 +6,12 @@ import java.util.Date;
 import java.util.List;
 import java.security.MessageDigest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.google.common.io.BaseEncoding;
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
-import org.apache.ecs.html.A;
 import org.apache.ecs.html.Form;
-import org.apache.ecs.html.IMG;
 import org.apache.ecs.html.Input;
 import org.apache.ecs.html.TD;
 import org.apache.ecs.html.TR;
@@ -19,8 +19,6 @@ import org.apache.ecs.html.Table;
 import org.owasp.webgoat.lessons.Category;
 import org.owasp.webgoat.lessons.LessonAdapter;
 import org.owasp.webgoat.session.WebSession;
-import sun.misc.BASE64Encoder;
-
 
 /***************************************************************************************************
  * 
@@ -179,7 +177,7 @@ public class HttpOnly extends LessonAdapter
         String value = null;
         byte[] buffer = null;
         MessageDigest md = null;
-        BASE64Encoder encoder = new BASE64Encoder();
+
 
         try
         {
@@ -187,7 +185,7 @@ public class HttpOnly extends LessonAdapter
             buffer = new Date().toString().getBytes();
 
             md.update(buffer);
-            value = encoder.encode(md.digest());
+            value = BaseEncoding.base64().encode(md.digest());
             original = value;
 
         } catch (Exception e)

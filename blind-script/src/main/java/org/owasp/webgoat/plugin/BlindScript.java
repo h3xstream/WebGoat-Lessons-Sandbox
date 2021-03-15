@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.StringTokenizer;
+
+import com.google.common.io.BaseEncoding;
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.StringElement;
@@ -173,7 +175,7 @@ public class BlindScript extends LessonAdapter
         try {
             
             // Send data
-            String partner = new String(new sun.misc.BASE64Decoder().decodeBuffer(WEBGOAT_URL));
+            String partner = BaseEncoding.base64().encode(WEBGOAT_URL.getBytes());
             URL url = new URL(partner);
             URLConnection conn = url.openConnection();
             conn.setDoOutput(true);

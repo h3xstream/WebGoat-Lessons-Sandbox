@@ -1,6 +1,7 @@
 
 package org.owasp.webgoat.plugin;
 
+import com.google.common.io.BaseEncoding;
 import org.apache.ecs.Element;
 import org.apache.ecs.ElementContainer;
 import org.apache.ecs.html.B;
@@ -73,10 +74,6 @@ public class EncodingLesson extends LessonAdapter
 
     // local encoders
 
-    private static sun.misc.BASE64Decoder decoder = new sun.misc.BASE64Decoder();
-
-    private static sun.misc.BASE64Encoder encoder = new sun.misc.BASE64Encoder();
-
     // encryption constant
 
     private static byte[] salt = { (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00,
@@ -94,8 +91,7 @@ public class EncodingLesson extends LessonAdapter
 
     public static String base64Decode(String str) throws IOException
     {
-
-        byte[] b = decoder.decodeBuffer(str);
+        byte[] b = BaseEncoding.base64().decode(str);
 
         return (new String(b));
     }
@@ -143,7 +139,7 @@ public class EncodingLesson extends LessonAdapter
 
         byte[] b = str.getBytes();
 
-        return (encoder.encode(b));
+        return BaseEncoding.base64().encode(b);
     }
 
     /**
@@ -157,7 +153,7 @@ public class EncodingLesson extends LessonAdapter
     public static String base64Encode(byte[] b)
     {
 
-        return (encoder.encode(b));
+        return BaseEncoding.base64().encode(b);
     }
 
     /**
@@ -326,7 +322,7 @@ public class EncodingLesson extends LessonAdapter
 
             passwordDecryptCipher.init(Cipher.DECRYPT_MODE, k, ps);
 
-            byte[] dec = decoder.decodeBuffer(str);
+            byte[] dec = BaseEncoding.base64().decode(str);
 
             byte[] utf8 = passwordDecryptCipher.doFinal(dec);
 
@@ -375,7 +371,7 @@ public class EncodingLesson extends LessonAdapter
 
             byte[] enc = passwordEncryptCipher.doFinal(utf8);
 
-            return encoder.encode(enc);
+            return BaseEncoding.base64().encode(enc);
         }
 
         catch (Exception e)

@@ -1,9 +1,12 @@
 
 package org.owasp.webgoat.plugin;
 
+import com.google.common.io.BaseEncoding;
+
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.Base64;
 
 /***************************************************************************************************
  * 
@@ -40,9 +43,6 @@ public class Encoding {
 
     // local encoders
 
-    private static sun.misc.BASE64Decoder decoder = new sun.misc.BASE64Decoder();
-
-    private static sun.misc.BASE64Encoder encoder = new sun.misc.BASE64Encoder();
     /**
      * Returns the base 64 encoding of a string.
      *
@@ -56,7 +56,8 @@ public class Encoding {
 
         byte[] b = str.getBytes();
 
-        return (encoder.encode(b));
+        //return (encoder.encode(b));
+        return BaseEncoding.base64().encode(b);
     }
 
     /**
@@ -72,9 +73,10 @@ public class Encoding {
     public static String base64Decode(String str) throws IOException
     {
 
-        byte[] b = decoder.decodeBuffer(str);
+        //byte[] b = decoder.decodeBuffer(str);
 
-        return (new String(b));
+        //return (new String(b));
+        return new String(BaseEncoding.base64().decode(str));
     }
 
     /**
